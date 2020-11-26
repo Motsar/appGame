@@ -33,15 +33,13 @@
         document.getElementById("quessLetter").style.display="inline";
         let wordUnderscored = word;
         console.log(wordUnderscored.length);
-        for(let a=0;a<wordUnderscored.length;a++){
-            wordUnderscored.replaceAt(a, "_");
-        }
         document.getElementById("result").innerHTML=wordUnderscored;
         
     }
     
     String.prototype.replaceAt = function(index, replacement) {
     return this.substr(0, index) + replacement + this.substr(index + replacement.length);
+    
 }
 
 
