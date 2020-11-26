@@ -3,9 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Application</title>
+    <title>quess the word!</title>
+    <style>
+        #quessLetter{
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <h1>Tere!!!</h1>
+    <h1>Quess the word!</h1><br>
+    <div id="setWord">
+        <label for="setTheWord">Set the word!</label><br>
+        <input type="text" id="setTheWord" name="setTheWord"><br>
+        <button onclick="startGame()">Alusta!</button>
+    </div>
+    <span id="result"></span><br>
+    <div id="quessLetter">
+        <label for="quessTheLetter">Quess the letter!</label><br>
+        <input type="text" id="quessTheLetter" name="quessTheLetter" minlength="1" maxlength="1" size="1"><br>
+        <button id="letterOne">Arva!</button>
+    </div>
 </body>
+<script>
+
+    function startGame(){
+        const word = document.getElementById("setTheWord").value;
+        if(word.length == 0) return document.getElementById("result").innerHTML="Sisestage sõna!";
+        document.getElementById("setWord").style.display="none";
+        document.getElementById("quessLetter").style.display="inline";
+        let wordUnderscored = word;
+        console.log(wordUnderscored.length);
+        for(let a=0;a<wordUnderscored.length;a++){
+            wordUnderscored.replaceAt(a, "_");
+        }
+        document.getElementById("result").innerHTML=wordUnderscored;
+        
+    }
+    
+    String.prototype.replaceAt = function(index, replacement) {
+    return this.substr(0, index) + replacement + this.substr(index + replacement.length);
+}
+
+
+</script>
 </html>
