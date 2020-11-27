@@ -7,35 +7,110 @@
     <style>
         #quessLetter{
             display: none;
+            transition: 500;
+        }
+        #restart{
+            display: none;
+            transition: 500;
         }
     </style>
 </head>
 <body>
-    <h1>Quess the word!</h1><br>
+    <h1>Hangman</h1><br>
     <div id="setWord">
         <label for="setTheWord">Set the word!</label><br>
         <input type="text" id="setTheWord" name="setTheWord"><br>
-        <button onclick="startGame()">Alusta!</button>
+        <button onclick="startGame()">Start</button>
     </div>
     <span id="result"></span><br>
     <div id="quessLetter">
         <label for="quessTheLetter">Quess the letter!</label><br>
         <input type="text" id="quessTheLetter" name="quessTheLetter" minlength="1" maxlength="1" size="1"><br>
-        <button id="letterOne">Arva!</button>
+        <button id="letterOne" type=submit>quess</button>
     </div>
+    <span id="score"></span><br>
+    <span id="hangman"></span>
+    <button id="restart" onclick="restart()">New game</button>
 </body>
 <script>
 
+    String.prototype.replaceAt = function(index, replacement) {
+        if (index >= this.length) {
+            return this.valueOf();
+        }
+        return this.substring(0, index) + replacement + this.substring(index + 1);
+    }
+    // Game function initialized by start button
     function startGame(){
-        const word = document.getElementById("setTheWord").value;
-        if(word.length == 0) return document.getElementById("result").innerHTML="Sisestage sõna!";
+        const word = document.getElementById("setTheWord").value.toLowerCase();
+        if(word.length == 0) return document.getElementById("result").innerHTML="Enter a word";
         document.getElementById("setWord").style.display="none";
         document.getElementById("quessLetter").style.display="inline";
-        let wordUnderscored = word;
-        console.log(wordUnderscored.length);
+        let wordUnderscored = "?".repeat(word.length);
         document.getElementById("result").innerHTML=wordUnderscored;
-        console.log("TESTING TESTING");
+        console.log(wordUnderscored.length);
+        let inputLetter;
+        let tries=0;
+
+    
+        const hangman = ["____&nbsp;","&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;", "&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;", "&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;/|\\", "&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;\\","/|\\&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "-------"];
+        
+            document.getElementById("letterOne").addEventListener("click", function(){
+                document.getElementById("score").innerHTML="";
+                inputLetter = document.getElementById("quessTheLetter").value.toLowerCase();
+
+                if(inputLetter.length==0 || /^\d+$/.test(inputLetter)) return document.getElementById("score").innerHTML="You need to insert a letter";
+
+                if(tries<=5){     
+                    if(checkInput(inputLetter,word, wordUnderscored)!=false){
+                        wordUnderscored = checkInput(inputLetter,word, wordUnderscored);
+                        document.getElementById("result").innerHTML=wordUnderscored;
+                        if(word==wordUnderscored){
+                            document.getElementById("score").innerHTML = "Congrats, You have won the game!";
+                            changeButtons()
+                        }
+                    }else{
+                        document.getElementById("score").innerHTML="There is no letter " + inputLetter + " in this word!";
+                        document.getElementById("hangman").innerHTML+=hangman[tries]+"<br>";
+                        tries+=1;
+                    }
+                }else{
+                    document.getElementById("score").innerHTML="You have run out of tries, you lost the game. The word was: "+ word + "!";
+                    document.getElementById("hangman").innerHTML+=hangman[tries]+"<br>";
+                    changeButtons()
+                    }
+                    document.getElementById("quessTheLetter").value="";        
+            });
+            
     }
+    
+    function checkInput(input, word, quessWord){
+        let changeingW = quessWord;
+        let charFound =0;
+        for(let i=0;i<word.length;i++){
+            if(input==word.charAt(i)){
+                changeingW = changeingW.replaceAt(i,input)
+                charFound+=1;
+            }
+        }
+        if(charFound>0){
+            return changeingW; 
+        }else{
+            return false;
+        }
+    }
+
+    function changeButtons(){
+        document.getElementById("quessLetter").style.display="none";
+        document.getElementById("restart").style.display="inline";
+    }
+
+    function restart(){
+        location.reload();
+    }
+
+
+
     
 </script>
 </html>
