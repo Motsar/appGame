@@ -45,7 +45,7 @@
         const word = document.getElementById("setTheWord").value.toLowerCase();
         if(word.length == 0) return document.getElementById("result").innerHTML="Enter a word!";
         if(/^\d+$/.test(inputLetter)) return document.getElementById("result").innerHTML="You cant use numbers inside word!";
-        if (/\s/.test(inputLetter)) return document.getElementById("result").innerHTML="You cant use space, insert a single word!";
+        if (/^ *$/.test(inputLetter)) return document.getElementById("result").innerHTML="You cant use space, insert a single word!";
         document.getElementById("setWord").style.display="none";
         document.getElementById("quessLetter").style.display="inline";
         let wordUnderscored = "?".repeat(word.length);
