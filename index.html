@@ -34,48 +34,87 @@
 </body>
 <script>
 
+    //Function for replacing letters inside a string 
+
     String.prototype.replaceAt = function(index, replacement) {
         if (index >= this.length) {
             return this.valueOf();
         }
         return this.substring(0, index) + replacement + this.substring(index + 1);
     }
+
     // Game function initialized by start button
+
     function startGame(){
+
+        //Get inserted word value
+
         const word = document.getElementById("setTheWord").value.toLowerCase();
+
+        //Error handling for inserting the word
+
         if(word.length == 0) return document.getElementById("result").innerHTML="Enter a word!";
         if(/^\d+$/.test(word)) return document.getElementById("result").innerHTML="You cant use numbers inside word!";
         if (/\s/.test(word)) return document.getElementById("result").innerHTML="You cant use space, insert a single word!";
+
+        //Change before game div display none and in game div display inline
+
         document.getElementById("setWord").style.display="none";
         document.getElementById("quessLetter").style.display="inline";
+
+        //Relplace inserted word letters with question marks
+
         let wordUnderscored = "?".repeat(word.length);
         document.getElementById("result").innerHTML=wordUnderscored;
         console.log(wordUnderscored.length);
         let inputLetter;
         let tries=0;
 
-    
+        //Hangman array for showing line by line wrong quesses
+
         const hangman = ["____&nbsp;","&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;", "&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;", "&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;/|\\", "&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;\\","/|\\&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "-------"];
-        
+
+            //Event handler for checking if button is clicked for passing a letter input
+
             document.getElementById("letterOne").addEventListener("click", function(){
+                
+                //In game logic
+
                 document.getElementById("score").innerHTML="";
                 inputLetter = document.getElementById("quessTheLetter").value.toLowerCase();
 
-                if(inputLetter.length==0 || /^\d+$/.test(inputLetter)) return document.getElementById("score").innerHTML="You need to insert a letter";
+                //Test if letter is inserted into the input field
 
-                if(tries<=5){     
+                if(inputLetter.length==0 || /^\d+$/.test(inputLetter)) return document.getElementById("score").innerHTML="You need to insert a letter";
+                
+                //User has 5 tries to quess the word
+
+                if(tries<=5){
+
+                    //If input letter is inside the word and replace the letter inside question mark string
+
                     if(checkInput(inputLetter,word, wordUnderscored)!=false){
                         wordUnderscored = checkInput(inputLetter,word, wordUnderscored);
                         document.getElementById("result").innerHTML=wordUnderscored;
+
+                        //Check if question mark string is equal to word after replacing string
+
                         if(word==wordUnderscored){
                             document.getElementById("score").innerHTML = "Congrats, You have won the game!";
                             changeButtons()
                         }
+
+                    //Display a line of hangman and let the user know that the input letter was wrong
+
                     }else{
                         document.getElementById("score").innerHTML="There is no letter " + inputLetter + " in this word!";
                         document.getElementById("hangman").innerHTML+=hangman[tries]+"<br>";
                         tries+=1;
                     }
+
+                
+                //User has ran out of tries and has lost the game
+
                 }else{
                     document.getElementById("score").innerHTML="You have run out of tries, you lost the game. The word was: "+ word + "!";
                     document.getElementById("hangman").innerHTML+=hangman[tries]+"<br>";
@@ -86,6 +125,8 @@
             
     }
     
+    //function for checking if the word contains letter
+
     function checkInput(input, word, quessWord){
         let changeingW = quessWord;
         let charFound =0;
@@ -102,11 +143,13 @@
         }
     }
 
+    //hide quess letters fields invisible and show restart button
     function changeButtons(){
         document.getElementById("quessLetter").style.display="none";
         document.getElementById("restart").style.display="inline";
     }
 
+    //Reset game
     function restart(){
         location.reload();
     }
