@@ -44,7 +44,8 @@
     function startGame(){
         const word = document.getElementById("setTheWord").value.toLowerCase();
         if(word.length == 0) return document.getElementById("result").innerHTML="Enter a word!";
-        
+        if(/^\d+$/.test(word)) return document.getElementById("result").innerHTML="You cant use numbers inside word!";
+        if (/^ *$/.test(word)) return document.getElementById("result").innerHTML="You cant use space, insert a single word!";
         document.getElementById("setWord").style.display="none";
         document.getElementById("quessLetter").style.display="inline";
         let wordUnderscored = "?".repeat(word.length);
@@ -109,6 +110,8 @@
     function restart(){
         location.reload();
     }
+
+    
 
 
 
