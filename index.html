@@ -16,7 +16,7 @@
     </style>
 </head>
 <body>
-    <h1>Hangman</h1><br>
+    <h1>Hangman 1</h1><br>
     <div id="setWord">
         <label for="setTheWord">Set the word!</label><br>
         <input type="text" id="setTheWord" name="setTheWord"><br>
@@ -144,12 +144,14 @@
     }
 
     //hide quess letters fields invisible and show restart button
+
     function changeButtons(){
         document.getElementById("quessLetter").style.display="none";
         document.getElementById("restart").style.display="inline";
     }
 
     //Reset game
+    
     function restart(){
         location.reload();
     }
