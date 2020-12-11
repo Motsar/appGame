@@ -29,7 +29,7 @@ let mongoUrlDocker = "mongodb://admin:password@mongodb";
 app.post('/update-profile', function (req, res) {
   let userObj = req.body;
 
-  MongoClient.connect(mongoUrlLocal,{useUnifiedTopology: true}, function (err, client) {
+  MongoClient.connect(mongoUrlDocker,{useUnifiedTopology: true}, function (err, client) {
     if (err) throw err;
 
     let db = client.db('user-account');
@@ -51,7 +51,7 @@ app.post('/update-profile', function (req, res) {
 app.get('/get-profile', function (req, res) {
   let response = {};
   // Connect to the db
-  MongoClient.connect(mongoUrlLocal,{useUnifiedTopology: true}, function (err, client) {
+  MongoClient.connect(mongoUrlDocker,{useUnifiedTopology: true}, function (err, client) {
     if (err) throw err;
 
     let db = client.db('user-account');
