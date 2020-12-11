@@ -24,7 +24,7 @@ app.get('/profile-picture', function (req, res) {
 let mongoUrlLocal = "mongodb://admin:password@app-mongodb";
 
 // use when starting application as docker container
-let mongoUrlDocker = "mongodb://admin:password@mongodb";
+let mongoUrlDocker = "mongodb://admin:password@app-mongodb";
 
 app.post('/update-profile', function (req, res) {
   let userObj = req.body;
