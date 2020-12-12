@@ -69,6 +69,6 @@ app.get('/get-profile', function (req, res) {
   });
 });
 
-app.listen(3000, 'localhost' ,function () {
+app.listen(3000, '127.0.0.1' ,function () {
   console.log("app listening on port 3000!");
 });
